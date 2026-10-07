@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VerPoli – Begleitmaterialien & Syntaxen</title>
-<meta name="description" content="Begleitmaterialien zur 3. Auflage von „Einführung in die Vergleichende Politikwissenschaft“ (VerPoli): Stata-, SPSS-, R-, NetLogo- und Python-Syntaxen sowie Datensätze, kapitelweise und reproduzierbar.">
+<meta name="description" content="Begleitmaterialien zur 3. Auflage von „Einführung in die Vergleichende Politikwissenschaft“ (VerPoli): Stata- und R-Syntaxen sowie Datensätze, kapitelweise und reproduzierbar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -24,10 +24,7 @@
     --code-dim:#6E9187;
     --tag-grey:#8F9EA4;
     --st-stata:#02483E;
-    --st-spss:#F8AA0C;
     --st-r:#36683E;
-    --st-netlogo:#7C832E;
-    --st-python:#54646B;
     --maxw:1140px;
     --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
     --sans:"Source Sans 3",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
@@ -156,10 +153,7 @@
   .badge{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.04em;
     padding:3px 7px;border-radius:5px;color:#fff;text-transform:uppercase;white-space:nowrap}
   .b-stata{background:var(--st-stata)}
-  .b-spss{background:var(--st-spss);color:var(--verpoli-dark)}
   .b-r{background:var(--st-r)}
-  .b-netlogo{background:var(--st-netlogo)}
-  .b-python{background:var(--st-python)}
   .b-data{background:var(--ink-soft)}
   .card .dataset{padding:0 22px 18px;font-size:.86rem;color:var(--ink-soft)}
   .card .dataset a{font-weight:600}
@@ -247,7 +241,7 @@
     <div>
       <p class="eyebrow">Begleitmaterialien · 3. Auflage</p>
       <h1>Einführung in die Vergleichende Politikwissenschaft</h1>
-      <p class="lead">Alle Syntaxen und Datensätze zum Lehrbuch – kapitelweise geordnet, dokumentiert und reproduzierbar. Für Stata, SPSS, R, NetLogo und Python.</p>
+      <p class="lead">Alle Syntaxen und Datensätze zum Lehrbuch – kapitelweise geordnet, dokumentiert und reproduzierbar. Für Stata und R.</p>
       <p class="byline">Detlef Jahn &amp; Sophie Suda</p>
       <div class="cta-row">
         <a class="btn primary" href="#syntaxen">Zu den Syntaxen</a>
@@ -279,18 +273,11 @@
       <p>Für jedes empirische Beispiel im Buch finden Sie hier die vollständigen Befehlsdateien. Filtern Sie nach Software oder suchen Sie nach Kapitel, Thema oder Dateiname.</p>
     </div>
 
-    <div class="note">
-      <strong>Vorlage.</strong> Diese Seite ist ein befülltes Gerüst. Die Kapitelnummern (<code>Kap. XX</code>), Dateinamen, Größen und Download-Links sind Platzhalter und werden durch Ihre tatsächlichen Dateien ersetzt. Fett hervorgehobene <span class="ph">kursive Stellen</span> markieren einzutragende Angaben.
-    </div>
-
     <div class="toolbar">
       <div class="filters" role="group" aria-label="Nach Software filtern">
         <button class="chip" data-filter="all" aria-pressed="true">Alle</button>
         <button class="chip" data-filter="stata" aria-pressed="false">Stata</button>
-        <button class="chip" data-filter="spss" aria-pressed="false">SPSS</button>
         <button class="chip" data-filter="r" aria-pressed="false">R</button>
-        <button class="chip" data-filter="netlogo" aria-pressed="false">NetLogo</button>
-        <button class="chip" data-filter="python" aria-pressed="false">Python</button>
       </div>
       <div class="search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -324,7 +311,7 @@
         <p class="dataset">Datensatz: <a href="#datensaetze">V-Dem</a></p>
       </article>
 
-      <article class="card" data-sw="stata r spss" data-text="statistik variablenorientiert tscs kuznets korporatismus panel regression zeitreihe">
+      <article class="card" data-sw="stata r" data-text="statistik variablenorientiert tscs kuznets korporatismus panel regression zeitreihe">
         <div class="card-top">
           <span class="kap">Kap. XX · Statistisch-variablenorientierte Verfahren</span>
           <h3>TSCS, Kuznets-Kurve &amp; Korporatismus</h3>
@@ -333,7 +320,6 @@
         <ul class="files">
           <li class="file"><span class="badge b-stata">Stata</span><span class="name">tscs_analyse.do</span><span class="meta"><span class="size">9 KB</span><a class="dl" href="#">Download</a></span></li>
           <li class="file"><span class="badge b-r">R</span><span class="name">kuznets_kurve.R</span><span class="meta"><span class="size">4 KB</span><a class="dl" href="#">Download</a></span></li>
-          <li class="file"><span class="badge b-spss">SPSS</span><span class="name">korporatismus.sps</span><span class="meta"><span class="size">3 KB</span><a class="dl" href="#">Download</a></span></li>
         </ul>
         <p class="dataset">Datensatz: <a href="#datensaetze">PIP</a></p>
       </article>
@@ -350,20 +336,19 @@
         </ul>
       </article>
 
-      <article class="card" data-sw="netlogo r" data-text="simulation agentenbasiert abm schelling segregation hegselmann krause meinungsdynamik nested analysis">
+      <article class="card" data-sw="r" data-text="simulation agentenbasiert abm schelling segregation hegselmann krause meinungsdynamik nested analysis">
         <div class="card-top">
           <span class="kap">Kap. XX · Multimethoden &amp; Simulation</span>
           <h3>Agentenbasierte Modelle</h3>
           <p class="desc">Schelling-Segregationsmodell und Bounded-Confidence-Meinungsdynamik; R-Skript zur verzahnten (nested) Analyse.</p>
         </div>
         <ul class="files">
-          <li class="file"><span class="badge b-netlogo">NetLogo</span><span class="name">schelling.nlogo</span><span class="meta"><span class="size">14 KB</span><a class="dl" href="#">Download</a></span></li>
           <li class="file"><span class="badge b-r">R</span><span class="name">hegselmann_krause.R</span><span class="meta"><span class="size">5 KB</span><a class="dl" href="#">Download</a></span></li>
           <li class="file"><span class="badge b-r">R</span><span class="name">nested_analysis.R</span><span class="meta"><span class="size">4 KB</span><a class="dl" href="#">Download</a></span></li>
         </ul>
       </article>
 
-      <article class="card" data-sw="r python" data-text="computational comparative politics text as data embeddings synthetic control ccp">
+      <article class="card" data-sw="r" data-text="computational comparative politics text as data embeddings synthetic control ccp">
         <div class="card-top">
           <span class="kap">Kap. XX · Computational Comparative Politics</span>
           <h3>Text-as-Data &amp; Synthetic Control</h3>
@@ -371,12 +356,11 @@
         </div>
         <ul class="files">
           <li class="file"><span class="badge b-r">R</span><span class="name">synthetic_control.R</span><span class="meta"><span class="size">6 KB</span><a class="dl" href="#">Download</a></span></li>
-          <li class="file"><span class="badge b-python">Python</span><span class="name">text_as_data.ipynb</span><span class="meta"><span class="size">18 KB</span><a class="dl" href="#">Download</a></span></li>
         </ul>
         <p class="dataset">Datensätze: <a href="#datensaetze">CHES</a>, <a href="#datensaetze">Manifesto</a></p>
       </article>
 
-      <article class="card" data-sw="stata spss r" data-text="pip datensatz aufbereitung mds smacof multidimensionale skalierung stattransfer pipeline">
+      <article class="card" data-sw="stata r" data-text="pip datensatz aufbereitung mds smacof multidimensionale skalierung stattransfer pipeline">
         <div class="card-top">
           <span class="kap">Kap. XX · PIP-Datensatz</span>
           <h3>PIP: Aufbereitung &amp; MDS (smacof)</h3>
@@ -384,7 +368,6 @@
         </div>
         <ul class="files">
           <li class="file"><span class="badge b-stata">Stata</span><span class="name">pip_aufbereitung.do</span><span class="meta"><span class="size">11 KB</span><a class="dl" href="#">Download</a></span></li>
-          <li class="file"><span class="badge b-spss">SPSS</span><span class="name">pip_recode.sps</span><span class="meta"><span class="size">7 KB</span><a class="dl" href="#">Download</a></span></li>
           <li class="file"><span class="badge b-r">R</span><span class="name">pip_mds_smacof.R</span><span class="meta"><span class="size">5 KB</span><a class="dl" href="#">Download</a></span></li>
         </ul>
         <p class="dataset">Datensatz: <a href="#datensaetze">PIP</a></p>
@@ -472,20 +455,14 @@
         <pre class="tree">verpoli-materialien/
 ├── daten/            <span class="c"># PIP + externe Datensätze</span>
 ├── stata/            <span class="c"># .do-Dateien</span>
-├── spss/             <span class="c"># .sps-Dateien</span>
 ├── r/                <span class="c"># .R-Skripte</span>
-├── netlogo/          <span class="c"># .nlogo-Modelle</span>
-├── python/           <span class="c"># .ipynb / .py</span>
 └── abbildungen/      <span class="c"># erzeugte Grafiken</span></pre>
       </div>
       <div class="panel">
         <h3>Getestete Softwareversionen</h3>
         <ul class="verlist">
           <li><span>Stata</span><span class="v"><span class="ph">18.x</span></span></li>
-          <li><span>IBM SPSS Statistics</span><span class="v"><span class="ph">29.x</span></span></li>
           <li><span>R</span><span class="v"><span class="ph">4.4.x</span></span></li>
-          <li><span>NetLogo</span><span class="v"><span class="ph">6.4.x</span></span></li>
-          <li><span>Python</span><span class="v"><span class="ph">3.12.x</span></span></li>
         </ul>
         <p style="color:var(--ink-soft);font-size:.9rem;margin:14px 0 0">R-Pakete werden am Skriptkopf über <code>library()</code> geladen; benötigte Pakete sind dort dokumentiert.</p>
       </div>
@@ -499,19 +476,7 @@
     <div class="sec-head">
       <p class="sec-eyebrow">Nutzung</p>
       <h2>Zitieren &amp; Lizenz</h2>
-      <p>Bitte zitieren Sie die Materialien mit einer persistenten Kennung. Ein DOI über ein Repositorium (z. B. Zenodo oder OSF) macht die Version dauerhaft zitierbar.</p>
-    </div>
-    <div class="cite-wrap">
-      <pre class="cite" id="bib">@misc{verpoli_materialien,
-  author    = {Jahn, Detlef and Suda, Sophie},
-  title     = {Begleitmaterialien zu „Einf&uuml;hrung in die
-               Vergleichende Politikwissenschaft“, 3. Aufl.},
-  year      = {<span class="ph">2026</span>},
-  publisher = {<span class="ph">Zenodo</span>},
-  doi       = {<span class="ph">10.xxxx/zenodo.xxxxxxx</span>},
-  url       = {<span class="ph">https://…</span>}
-}</pre>
-      <button class="copybtn" id="copybib" type="button">Kopieren</button>
+      <p>Hinweise zur Zitierung der Begleitmaterialien werden vor Erscheinen des Buches ergänzt.</p>
     </div>
     <div class="lic">
       <div class="pill"><strong>Syntaxen &amp; Code</strong>Vorschlag: MIT- oder GPL-3.0-Lizenz</div>
