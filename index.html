@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VerPoli – Begleitmaterialien & Syntaxen</title>
+<meta name="description" content="Begleitmaterialien zur 3. Auflage von „Einführung in die Vergleichende Politikwissenschaft“ (VerPoli): Stata-, SPSS-, R-, NetLogo- und Python-Syntaxen sowie Datensätze, kapitelweise und reproduzierbar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B2E27;
+    --ink-soft:#3C5B52;
+    --verpoli:#02483E;
+    --verpoli-dark:#012E27;
+    --orange:#F8AA0C;
+    --orange-deep:#C19416;
+    --wash:#FCEFD6;
+    --paper:#FEFCF7;
+    --rule:#DFD9C7;
+    --code-bg:#0B2E27;
+    --code-fg:#DCEAE3;
+    --code-dim:#6E9187;
+    --tag-grey:#8F9EA4;
+    --st-stata:#02483E;
+    --st-spss:#F8AA0C;
+    --st-r:#36683E;
+    --st-netlogo:#7C832E;
+    --st-python:#54646B;
+    --maxw:1140px;
+    --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --sans:"Source Sans 3",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{animation:none!important;transition:none!important}}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:var(--serif);line-height:1.15;font-weight:600;letter-spacing:-.01em}
+  a{color:var(--verpoli-dark);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  :focus-visible{outline:3px solid var(--verpoli);outline-offset:2px;border-radius:3px}
+
+  /* ---- Header ---- */
+  header.top{position:sticky;top:0;z-index:50;background:rgba(251,252,254,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+  .top .wrap{display:flex;align-items:center;gap:28px;height:60px}
+  .brand{font-family:var(--serif);font-weight:700;font-size:1.15rem;letter-spacing:.02em;
+    color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:13px;height:13px;border-radius:3px;display:inline-block;
+    background:linear-gradient(135deg,var(--orange) 0 50%,var(--verpoli) 50% 100%)}
+  nav.main{margin-left:auto;display:flex;gap:22px;flex-wrap:wrap}
+  nav.main a{color:var(--ink-soft);font-size:.93rem;font-weight:500}
+  nav.main a:hover{color:var(--verpoli-dark);text-decoration:none}
+  @media (max-width:720px){nav.main{display:none}}
+
+  /* ---- Hero: cover-accurate diagonal split ---- */
+  .hero{position:relative;border-bottom:1px solid var(--rule);background:var(--orange);overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:var(--verpoli);
+    clip-path:polygon(58% 0,100% 0,100% 100%,66% 100%);}
+  .hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:var(--orange);
+    clip-path:polygon(58% 0,60.6% 0,68.6% 100%,66% 100%);}
+  .hero .arcs{position:absolute;top:0;right:0;width:46%;height:100%;opacity:.5;pointer-events:none}
+  .hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:52px;
+    align-items:center;padding:72px 24px 80px}
+  @media (max-width:880px){
+    .hero::before{clip-path:none;inset:auto 0 0 0;top:62%}
+    .hero::after{display:none}
+    .hero .wrap{grid-template-columns:1fr;gap:30px;padding:40px 24px 44px}
+  }
+  .spine-tag{position:absolute;top:26px;right:5.4%;z-index:2;background:var(--paper);
+    border-radius:5px;padding:9px 8px;box-shadow:0 6px 18px -8px rgba(2,20,16,.4);
+    writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg)}
+  .spine-tag span{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;
+    color:var(--tag-grey)}
+  @media (max-width:880px){.spine-tag{display:none}}
+  .eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--verpoli-dark);font-weight:700;margin:0 0 18px}
+  .hero h1{font-size:2.65rem;margin:0 0 16px;color:var(--verpoli-dark)}
+  @media (max-width:520px){.hero h1{font-size:2.05rem}}
+  .hero p.lead{font-size:1.12rem;color:#1F4038;margin:0 0 20px;max-width:38ch}
+  .byline{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--verpoli-dark);
+    margin:0 0 28px;padding-top:14px;border-top:1px solid rgba(2,72,62,.22)}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:2}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:700;
+    font-size:.97rem;padding:11px 20px;border-radius:8px;border:1px solid transparent;cursor:pointer}
+  .btn.primary{background:var(--verpoli-dark);color:#fff}
+  .btn.primary:hover{background:var(--verpoli);text-decoration:none}
+  .btn.ghost{background:var(--paper);color:var(--verpoli-dark);border-color:rgba(2,72,62,.35)}
+  .btn.ghost:hover{border-color:var(--verpoli-dark);text-decoration:none}
+  .hero .col-right{position:relative;z-index:2}
+
+  /* ---- Signature: code card ---- */
+  .codecard{background:var(--code-bg);border-radius:12px;overflow:hidden;
+    box-shadow:0 20px 44px -20px rgba(1,15,12,.6);font-family:var(--mono);font-size:.86rem;
+    border:1px solid rgba(255,255,255,.06)}
+  .codecard .bar{display:flex;align-items:center;gap:8px;padding:11px 14px;
+    background:#06211B;border-bottom:1px solid rgba(255,255,255,.07)}
+  .codecard .bar i{width:11px;height:11px;border-radius:50%;background:#1C4038;display:inline-block}
+  .codecard .bar .fn{margin-left:10px;color:var(--code-dim);font-size:.8rem}
+  .codecard pre{margin:0;padding:18px 18px 20px;color:var(--code-fg);overflow-x:auto;line-height:1.75}
+  .codecard .cm{color:#6E9187}
+  .codecard .kw{color:#F8AA0C}
+  .codecard .st{color:#9ED9B8}
+  .codecard .fn2{color:#E8C773}
+
+  /* ---- Section frame ---- */
+  section{padding:64px 0;border-bottom:1px solid var(--rule)}
+  .sec-head{max-width:62ch;margin-bottom:34px}
+  .sec-eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--orange-deep);font-weight:700;margin:0 0 10px}
+  .sec-head h2{font-size:1.9rem;margin:0 0 12px}
+  .sec-head p{color:var(--ink-soft);margin:0;font-size:1.05rem}
+
+  /* ---- Toolbar (filter + search) ---- */
+  .toolbar{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:26px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{font-family:var(--sans);font-size:.85rem;font-weight:600;padding:6px 14px;border-radius:20px;
+    border:1px solid var(--rule);background:#fff;color:var(--ink-soft);cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .search{margin-left:auto;position:relative}
+  .search input{font-family:var(--sans);font-size:.95rem;padding:9px 14px 9px 38px;border:1px solid var(--rule);
+    border-radius:8px;width:240px;background:#fff;color:var(--ink)}
+  .search input:focus{border-color:var(--verpoli);outline:none}
+  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
+
+  /* ---- Chapter cards ---- */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  @media (max-width:820px){.cards{grid-template-columns:1fr}}
+  .card{border:1px solid var(--rule);border-radius:12px;background:#fff;overflow:hidden;
+    display:flex;flex-direction:column;transition:box-shadow .18s,border-color .18s}
+  .card:hover{box-shadow:0 14px 34px -24px rgba(20,33,58,.45);border-color:#B9CBE0}
+  .card .kap{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--verpoli-dark);font-weight:500}
+  .card-top{padding:20px 22px 6px}
+  .card h3{font-size:1.2rem;margin:7px 0 8px}
+  .card .desc{color:var(--ink-soft);font-size:.95rem;margin:0 0 4px}
+  .files{list-style:none;margin:12px 0 0;padding:14px 22px 20px;border-top:1px solid var(--rule);
+    background:linear-gradient(180deg,#FAFCFF,#fff)}
+  .file{display:flex;align-items:center;gap:11px;padding:7px 0}
+  .file+.file{border-top:1px dashed var(--rule)}
+  .file .name{font-family:var(--mono);font-size:.84rem;color:var(--ink);word-break:break-all}
+  .file .meta{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .file .size{font-family:var(--mono);font-size:.72rem;color:var(--code-dim)}
+  .dl{font-family:var(--sans);font-size:.8rem;font-weight:600;color:var(--verpoli-dark);
+    border:1px solid var(--rule);border-radius:6px;padding:4px 10px;white-space:nowrap}
+  .dl:hover{background:var(--wash);text-decoration:none;border-color:var(--verpoli)}
+  .badge{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.04em;
+    padding:3px 7px;border-radius:5px;color:#fff;text-transform:uppercase;white-space:nowrap}
+  .b-stata{background:var(--st-stata)}
+  .b-spss{background:var(--st-spss);color:var(--verpoli-dark)}
+  .b-r{background:var(--st-r)}
+  .b-netlogo{background:var(--st-netlogo)}
+  .b-python{background:var(--st-python)}
+  .b-data{background:var(--ink-soft)}
+  .card .dataset{padding:0 22px 18px;font-size:.86rem;color:var(--ink-soft)}
+  .card .dataset a{font-weight:600}
+  .noresults{color:var(--ink-soft);font-style:italic;padding:20px 2px}
+
+  /* ---- Two-column info blocks ---- */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  @media (max-width:820px){.duo{grid-template-columns:1fr}}
+  .panel{border:1px solid var(--rule);border-radius:12px;padding:24px 26px;background:#fff}
+  .panel h3{font-size:1.15rem;margin:0 0 12px}
+  .panel ul{margin:0;padding-left:18px;color:var(--ink-soft)}
+  .panel li{margin:6px 0}
+  .verlist{list-style:none;padding:0;margin:0}
+  .verlist li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--rule);
+    font-size:.95rem;color:var(--ink)}
+  .verlist li:last-child{border-bottom:none}
+  .verlist .v{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft)}
+
+  pre.tree,pre.cite{background:var(--code-bg);color:var(--code-fg);font-family:var(--mono);
+    font-size:.82rem;line-height:1.7;border-radius:10px;padding:18px 20px;overflow-x:auto;margin:0}
+  pre.tree .c{color:var(--code-dim)}
+  .cite-wrap{position:relative}
+  .copybtn{position:absolute;top:12px;right:12px;font-family:var(--sans);font-size:.74rem;font-weight:600;
+    background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.18);
+    border-radius:6px;padding:5px 10px;cursor:pointer}
+  .copybtn:hover{background:rgba(255,255,255,.2)}
+
+  /* datasets */
+  .dsgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:820px){.dsgrid{grid-template-columns:1fr}}
+  .ds{border:1px solid var(--rule);border-radius:11px;padding:18px 20px;background:#fff}
+  .ds h3{font-size:1.05rem;margin:0 0 6px}
+  .ds p{margin:0 0 10px;font-size:.9rem;color:var(--ink-soft)}
+
+  /* license */
+  .lic{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+  .lic .pill{border:1px solid var(--rule);border-radius:8px;padding:12px 16px;background:#fff;font-size:.9rem}
+  .lic .pill strong{display:block;color:var(--ink);font-size:.95rem;margin-bottom:2px}
+
+  /* note */
+  .note{background:var(--wash);border:1px solid #EAD9A8;border-left:4px solid var(--orange-deep);
+    border-radius:8px;padding:14px 18px;font-size:.92rem;color:var(--ink);margin:0 0 30px}
+  .note strong{color:var(--verpoli-dark)}
+
+  footer{padding:48px 0 60px;background:#06211B;color:#AFC9C0;border:none}
+  footer .wrap{display:grid;grid-template-columns:2fr 1fr 1fr;gap:34px}
+  @media (max-width:720px){footer .wrap{grid-template-columns:1fr;gap:24px}}
+  footer h4{font-family:var(--serif);color:#fff;font-size:1.05rem;margin:0 0 12px;font-weight:600}
+  footer a{color:var(--orange)}
+  footer .muted{color:#5D7A70;font-size:.84rem;margin-top:6px}
+  footer ul{list-style:none;padding:0;margin:0}
+  footer li{margin:6px 0;font-size:.92rem}
+  .ph{font-style:italic;color:var(--verpoli-dark);border-bottom:1px dotted var(--verpoli)}
+  footer .ph{color:#F2C879;border-color:#F2C879}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="brand"><span class="dot"></span>VerPoli</span>
+    <nav class="main" aria-label="Hauptnavigation">
+      <a href="#syntaxen">Syntaxen</a>
+      <a href="#datensaetze">Datensätze</a>
+      <a href="#repro">Reproduzierbarkeit</a>
+      <a href="#zitieren">Zitieren &amp; Lizenz</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <svg class="arcs" viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="2">
+      <circle cx="70" cy="60" r="230"/>
+      <circle cx="70" cy="60" r="300"/>
+      <circle cx="70" cy="60" r="370"/>
+    </g>
+    <g fill="none" stroke="#F8AA0C" stroke-opacity=".22" stroke-width="2">
+      <circle cx="140" cy="10" r="260"/>
+      <circle cx="140" cy="10" r="330"/>
+    </g>
+  </svg>
+  <div class="spine-tag" aria-hidden="true"><span>ONLINEMATERIAL</span></div>
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Begleitmaterialien · 3. Auflage</p>
+      <h1>Einführung in die Vergleichende Politikwissenschaft</h1>
+      <p class="lead">Alle Syntaxen und Datensätze zum Lehrbuch – kapitelweise geordnet, dokumentiert und reproduzierbar. Für Stata, SPSS, R, NetLogo und Python.</p>
+      <p class="byline">Detlef Jahn &amp; Sophie Suda</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#syntaxen">Zu den Syntaxen</a>
+        <a class="btn ghost" href="#repro">Erste Schritte</a>
+      </div>
+    </div>
+    <div class="col-right">
+    <div class="codecard" aria-hidden="true">
+      <div class="bar"><i></i><i></i><i></i><span class="fn">kap_tscs.do</span></div>
+<pre><span class="cm">* Time-Series-Cross-Section, Kap. XX</span>
+<span class="kw">use</span> <span class="st">"pip_v3.dta"</span>, clear
+<span class="kw">xtset</span> land jahr
+<span class="kw">xtreg</span> gini korporatismus bip_pc, <span class="fn2">fe</span> cluster(land)
+<span class="kw">estimates</span> store fe_modell
+<span class="cm">* Abbildung: bedingte Mittelwerte</span>
+<span class="kw">margins</span>, at(korporatismus=(0(1)10))</pre>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ============ SYNTAXEN ============ -->
+<section id="syntaxen">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-eyebrow">Materialien nach Kapitel</p>
+      <h2>Syntaxen</h2>
+      <p>Für jedes empirische Beispiel im Buch finden Sie hier die vollständigen Befehlsdateien. Filtern Sie nach Software oder suchen Sie nach Kapitel, Thema oder Dateiname.</p>
+    </div>
+
+    <div class="note">
+      <strong>Vorlage.</strong> Diese Seite ist ein befülltes Gerüst. Die Kapitelnummern (<code>Kap. XX</code>), Dateinamen, Größen und Download-Links sind Platzhalter und werden durch Ihre tatsächlichen Dateien ersetzt. Fett hervorgehobene <span class="ph">kursive Stellen</span> markieren einzutragende Angaben.
+    </div>
+
+    <div class="toolbar">
+      <div class="filters" role="group" aria-label="Nach Software filtern">
+        <button class="chip" data-filter="all" aria-pressed="true">Alle</button>
+        <button class="chip" data-filter="stata" aria-pressed="false">Stata</button>
+        <button class="chip" data-filter="spss" aria-pressed="false">SPSS</button>
+        <button class="chip" data-filter="r" aria-pressed="false">R</button>
+        <button class="chip" data-filter="netlogo" aria-pressed="false">NetLogo</button>
+        <button class="chip" data-filter="python" aria-pressed="false">Python</button>
+      </div>
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" id="q" placeholder="Suchen …" aria-label="Materialien durchsuchen">
+      </div>
+    </div>
+
+    <div class="cards" id="cards">
+
+      <article class="card" data-sw="r" data-text="vergleichslogik mill kanons methode indirekter differenzmethode">
+        <div class="card-top">
+          <span class="kap">Kap. XX · Vergleichslogik</span>
+          <h3>Mill'sche Kanons &amp; Vergleichslogik</h3>
+          <p class="desc">Illustrationen zur Konkordanz- und Differenzmethode anhand kleiner Beispieldatensätze.</p>
+        </div>
+        <ul class="files">
+          <li class="file"><span class="badge b-r">R</span><span class="name">mill_kanons.R</span><span class="meta"><span class="size">3 KB</span><a class="dl" href="#">Download</a></span></li>
+        </ul>
+      </article>
+
+      <article class="card" data-sw="stata r" data-text="fallauswahl selektionsbias v-dem perry-robertson stichprobe sampling">
+        <div class="card-top">
+          <span class="kap">Kap. XX · Fallauswahl</span>
+          <h3>Fallauswahl &amp; Selektionsbias</h3>
+          <p class="desc">Auswahlstrategien und Selektionsverzerrung; Reproduktion der Selektionsbias-Abbildungen mit V-Dem-Daten.</p>
+        </div>
+        <ul class="files">
+          <li class="file"><span class="badge b-stata">Stata</span><span class="name">fallauswahl_selektionsbias.do</span><span class="meta"><span class="size">6 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-r">R</span><span class="name">selektionsbias_abb.R</span><span class="meta"><span class="size">5 KB</span><a class="dl" href="#">Download</a></span></li>
+        </ul>
+        <p class="dataset">Datensatz: <a href="#datensaetze">V-Dem</a></p>
+      </article>
+
+      <article class="card" data-sw="stata r spss" data-text="statistik variablenorientiert tscs kuznets korporatismus panel regression zeitreihe">
+        <div class="card-top">
+          <span class="kap">Kap. XX · Statistisch-variablenorientierte Verfahren</span>
+          <h3>TSCS, Kuznets-Kurve &amp; Korporatismus</h3>
+          <p class="desc">Panelregression (Fixed/Random Effects), quadratische Spezifikation der Kuznets-Kurve und die Korporatismus-Koeffizienten.</p>
+        </div>
+        <ul class="files">
+          <li class="file"><span class="badge b-stata">Stata</span><span class="name">tscs_analyse.do</span><span class="meta"><span class="size">9 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-r">R</span><span class="name">kuznets_kurve.R</span><span class="meta"><span class="size">4 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-spss">SPSS</span><span class="name">korporatismus.sps</span><span class="meta"><span class="size">3 KB</span><a class="dl" href="#">Download</a></span></li>
+        </ul>
+        <p class="dataset">Datensatz: <a href="#datensaetze">PIP</a></p>
+      </article>
+
+      <article class="card" data-sw="r" data-text="qca fuzzy sets mengentheoretisch konsistenz coverage wahrheitstafel">
+        <div class="card-top">
+          <span class="kap">Kap. XX · Mengentheoretische Verfahren</span>
+          <h3>QCA &amp; Fuzzy Sets</h3>
+          <p class="desc">Kalibrierung, Wahrheitstafel, Minimierung sowie Konsistenz- und Coverage-Maße mit dem <code>QCA</code>-Paket.</p>
+        </div>
+        <ul class="files">
+          <li class="file"><span class="badge b-r">R</span><span class="name">qca_kalibrierung.R</span><span class="meta"><span class="size">5 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-r">R</span><span class="name">fsqca_minimierung.R</span><span class="meta"><span class="size">6 KB</span><a class="dl" href="#">Download</a></span></li>
+        </ul>
+      </article>
+
+      <article class="card" data-sw="netlogo r" data-text="simulation agentenbasiert abm schelling segregation hegselmann krause meinungsdynamik nested analysis">
+        <div class="card-top">
+          <span class="kap">Kap. XX · Multimethoden &amp; Simulation</span>
+          <h3>Agentenbasierte Modelle</h3>
+          <p class="desc">Schelling-Segregationsmodell und Bounded-Confidence-Meinungsdynamik; R-Skript zur verzahnten (nested) Analyse.</p>
+        </div>
+        <ul class="files">
+          <li class="file"><span class="badge b-netlogo">NetLogo</span><span class="name">schelling.nlogo</span><span class="meta"><span class="size">14 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-r">R</span><span class="name">hegselmann_krause.R</span><span class="meta"><span class="size">5 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-r">R</span><span class="name">nested_analysis.R</span><span class="meta"><span class="size">4 KB</span><a class="dl" href="#">Download</a></span></li>
+        </ul>
+      </article>
+
+      <article class="card" data-sw="r python" data-text="computational comparative politics text as data embeddings synthetic control ccp">
+        <div class="card-top">
+          <span class="kap">Kap. XX · Computational Comparative Politics</span>
+          <h3>Text-as-Data &amp; Synthetic Control</h3>
+          <p class="desc">Mehrsprachige Text-Skalierung mit Word Embeddings sowie die synthetische Kontrollmethode.</p>
+        </div>
+        <ul class="files">
+          <li class="file"><span class="badge b-r">R</span><span class="name">synthetic_control.R</span><span class="meta"><span class="size">6 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-python">Python</span><span class="name">text_as_data.ipynb</span><span class="meta"><span class="size">18 KB</span><a class="dl" href="#">Download</a></span></li>
+        </ul>
+        <p class="dataset">Datensätze: <a href="#datensaetze">CHES</a>, <a href="#datensaetze">Manifesto</a></p>
+      </article>
+
+      <article class="card" data-sw="stata spss r" data-text="pip datensatz aufbereitung mds smacof multidimensionale skalierung stattransfer pipeline">
+        <div class="card-top">
+          <span class="kap">Kap. XX · PIP-Datensatz</span>
+          <h3>PIP: Aufbereitung &amp; MDS (smacof)</h3>
+          <p class="desc">Aufbereitungs-Pipeline des PIP-Datensatzes und die multidimensionale Skalierung mit dem R-Paket <code>smacof</code>.</p>
+        </div>
+        <ul class="files">
+          <li class="file"><span class="badge b-stata">Stata</span><span class="name">pip_aufbereitung.do</span><span class="meta"><span class="size">11 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-spss">SPSS</span><span class="name">pip_recode.sps</span><span class="meta"><span class="size">7 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-r">R</span><span class="name">pip_mds_smacof.R</span><span class="meta"><span class="size">5 KB</span><a class="dl" href="#">Download</a></span></li>
+        </ul>
+        <p class="dataset">Datensatz: <a href="#datensaetze">PIP</a></p>
+      </article>
+
+      <article class="card" data-sw="r" data-text="datenvisualisierung parteienfamilien parlgov regimetypen flächendiagramm polarisierung usa kongress">
+        <div class="card-top">
+          <span class="kap">Kap. XX · Datenvisualisierung</span>
+          <h3>Abbildungen reproduzieren</h3>
+          <p class="desc">Parteienfamilien (ParlGov), gestapelte Flächendiagramme der Regimetypen und die US-Polarisierungs-Abbildung.</p>
+        </div>
+        <ul class="files">
+          <li class="file"><span class="badge b-r">R</span><span class="name">parteienfamilien_parlgov.R</span><span class="meta"><span class="size">6 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-r">R</span><span class="name">regimetypen_flaeche.R</span><span class="meta"><span class="size">4 KB</span><a class="dl" href="#">Download</a></span></li>
+          <li class="file"><span class="badge b-r">R</span><span class="name">polarisierung_us.R</span><span class="meta"><span class="size">4 KB</span><a class="dl" href="#">Download</a></span></li>
+        </ul>
+        <p class="dataset">Datensatz: <a href="#datensaetze">ParlGov</a></p>
+      </article>
+
+    </div>
+    <p class="noresults" id="noresults" hidden>Keine Materialien für diese Auswahl. Filter oder Suchbegriff anpassen.</p>
+  </div>
+</section>
+
+<!-- ============ DATENSÄTZE ============ -->
+<section id="datensaetze">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-eyebrow">Daten</p>
+      <h2>Datensätze</h2>
+      <p>Der eigene PIP-Datensatz steht direkt zum Download bereit. Externe Datenquellen sind aus Lizenzgründen verlinkt, nicht gespiegelt – laden Sie sie bitte von der Originalquelle.</p>
+    </div>
+    <div class="dsgrid">
+      <div class="ds">
+        <span class="badge b-data">Eigen</span>
+        <h3 style="margin-top:8px">PIP</h3>
+        <p>Parties, Institutions and Preferences – der dem Buch zugrunde liegende Datensatz.</p>
+        <a class="dl" href="#">Download &amp; Codebook</a>
+      </div>
+      <div class="ds">
+        <span class="badge b-data">Extern</span>
+        <h3 style="margin-top:8px">V-Dem</h3>
+        <p>Varieties of Democracy – Demokratie- und Regimeindikatoren.</p>
+        <a class="dl" href="https://www.v-dem.net" target="_blank" rel="noopener">Zur Quelle</a>
+      </div>
+      <div class="ds">
+        <span class="badge b-data">Extern</span>
+        <h3 style="margin-top:8px">ParlGov</h3>
+        <p>Parlamente und Regierungen; Parteienfamilien und Wahlergebnisse.</p>
+        <a class="dl" href="https://www.parlgov.org" target="_blank" rel="noopener">Zur Quelle</a>
+      </div>
+      <div class="ds">
+        <span class="badge b-data">Extern</span>
+        <h3 style="margin-top:8px">CHES</h3>
+        <p>Chapel Hill Expert Survey – Parteipositionen (u. a. GAL-TAN).</p>
+        <a class="dl" href="https://www.chesdata.eu" target="_blank" rel="noopener">Zur Quelle</a>
+      </div>
+      <div class="ds">
+        <span class="badge b-data">Extern</span>
+        <h3 style="margin-top:8px">Manifesto (MARPOR)</h3>
+        <p>Manifesto Project – kodierte Wahlprogramme.</p>
+        <a class="dl" href="https://manifesto-project.wzb.eu" target="_blank" rel="noopener">Zur Quelle</a>
+      </div>
+      <div class="ds">
+        <span class="badge b-data">Extern</span>
+        <h3 style="margin-top:8px"><span class="ph">weitere Quelle</span></h3>
+        <p>Platz für zusätzliche im Buch verwendete Datenquellen.</p>
+        <a class="dl" href="#">Zur Quelle</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REPRODUZIERBARKEIT ============ -->
+<section id="repro">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-eyebrow">Erste Schritte</p>
+      <h2>Reproduzierbarkeit</h2>
+      <p>Jede Syntax läuft eigenständig, sobald der Datensatz im Unterordner <code>daten/</code> liegt und die Arbeitsverzeichnisse angepasst sind. Pfade stehen jeweils am Dateikopf.</p>
+    </div>
+    <div class="duo">
+      <div class="panel">
+        <h3>Empfohlene Ordnerstruktur</h3>
+        <pre class="tree">verpoli-materialien/
+├── daten/            <span class="c"># PIP + externe Datensätze</span>
+├── stata/            <span class="c"># .do-Dateien</span>
+├── spss/             <span class="c"># .sps-Dateien</span>
+├── r/                <span class="c"># .R-Skripte</span>
+├── netlogo/          <span class="c"># .nlogo-Modelle</span>
+├── python/           <span class="c"># .ipynb / .py</span>
+└── abbildungen/      <span class="c"># erzeugte Grafiken</span></pre>
+      </div>
+      <div class="panel">
+        <h3>Getestete Softwareversionen</h3>
+        <ul class="verlist">
+          <li><span>Stata</span><span class="v"><span class="ph">18.x</span></span></li>
+          <li><span>IBM SPSS Statistics</span><span class="v"><span class="ph">29.x</span></span></li>
+          <li><span>R</span><span class="v"><span class="ph">4.4.x</span></span></li>
+          <li><span>NetLogo</span><span class="v"><span class="ph">6.4.x</span></span></li>
+          <li><span>Python</span><span class="v"><span class="ph">3.12.x</span></span></li>
+        </ul>
+        <p style="color:var(--ink-soft);font-size:.9rem;margin:14px 0 0">R-Pakete werden am Skriptkopf über <code>library()</code> geladen; benötigte Pakete sind dort dokumentiert.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ZITIEREN & LIZENZ ============ -->
+<section id="zitieren">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-eyebrow">Nutzung</p>
+      <h2>Zitieren &amp; Lizenz</h2>
+      <p>Bitte zitieren Sie die Materialien mit einer persistenten Kennung. Ein DOI über ein Repositorium (z. B. Zenodo oder OSF) macht die Version dauerhaft zitierbar.</p>
+    </div>
+    <div class="cite-wrap">
+      <pre class="cite" id="bib">@misc{verpoli_materialien,
+  author    = {Jahn, Detlef and Suda, Sophie},
+  title     = {Begleitmaterialien zu „Einf&uuml;hrung in die
+               Vergleichende Politikwissenschaft“, 3. Aufl.},
+  year      = {<span class="ph">2026</span>},
+  publisher = {<span class="ph">Zenodo</span>},
+  doi       = {<span class="ph">10.xxxx/zenodo.xxxxxxx</span>},
+  url       = {<span class="ph">https://…</span>}
+}</pre>
+      <button class="copybtn" id="copybib" type="button">Kopieren</button>
+    </div>
+    <div class="lic">
+      <div class="pill"><strong>Syntaxen &amp; Code</strong>Vorschlag: MIT- oder GPL-3.0-Lizenz</div>
+      <div class="pill"><strong>Texte, Abbildungen, Codebook</strong>Vorschlag: CC BY 4.0</div>
+      <div class="pill"><strong>Externe Datensätze</strong>Es gelten die Lizenzen der jeweiligen Anbieter</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h4>Einführung in die Vergleichende Politikwissenschaft</h4>
+      <p style="margin:0">3. Auflage · Springer VS</p>
+      <p class="muted">Detlef Jahn (Universität Greifswald) &amp; Sophie Suda (Universität Basel)</p>
+    </div>
+    <div>
+      <h4>Seiten</h4>
+      <ul>
+        <li><a href="#syntaxen">Syntaxen</a></li>
+        <li><a href="#datensaetze">Datensätze</a></li>
+        <li><a href="#repro">Reproduzierbarkeit</a></li>
+        <li><a href="#zitieren">Zitieren &amp; Lizenz</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Rechtliches</h4>
+      <ul>
+        <li><a href="#" class="ph">Impressum</a></li>
+        <li><a href="#" class="ph">Datenschutz</a></li>
+        <li><a href="#" class="ph">Kontakt</a></li>
+      </ul>
+      <p class="muted">Für in Deutschland gehostete Seiten erforderlich.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#cards .card'));
+  var q = document.getElementById('q');
+  var noresults = document.getElementById('noresults');
+  var active = 'all';
+
+  function apply(){
+    var term = (q.value || '').trim().toLowerCase();
+    var shown = 0;
+    cards.forEach(function(card){
+      var sw = card.getAttribute('data-sw');
+      var text = card.getAttribute('data-text') + ' ' + card.textContent.toLowerCase();
+      var okSw = active === 'all' || sw.split(' ').indexOf(active) !== -1;
+      var okTerm = !term || text.indexOf(term) !== -1;
+      var vis = okSw && okTerm;
+      card.style.display = vis ? '' : 'none';
+      if(vis) shown++;
+    });
+    noresults.hidden = shown !== 0;
+  }
+
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.setAttribute('aria-pressed','false'); });
+      chip.setAttribute('aria-pressed','true');
+      active = chip.getAttribute('data-filter');
+      apply();
+    });
+  });
+  q.addEventListener('input', apply);
+
+  var copy = document.getElementById('copybib');
+  copy.addEventListener('click', function(){
+    var text = document.getElementById('bib').innerText;
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(function(){
+        var old = copy.textContent; copy.textContent = 'Kopiert';
+        setTimeout(function(){ copy.textContent = old; }, 1500);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>
